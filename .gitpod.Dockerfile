@@ -16,13 +16,15 @@ RUN apt-get update && apt-get install -y cron apache2 php libapache2-mod-php php
 # This allows Apache to handle PHP files and serve them as dynamic content.
 RUN a2enmod php8.1
 
+# Copy the index.php file from the local system to the /var/www/html directory in the Docker image.
+# This is the default directory that Apache serves files from.
+COPY index.php /var/www/html/index.php
+COPY .env /var/www/html/.env
+
 # Download Composer installer script
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+RUN cd /var/www/html/ && \
+        php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
         php composer-setup.php && \
         php -r "unlink('composer-setup.php');" && \
         mv composer.phar /usr/local/bin/composer && \
         composer require vlucas/phpdotenv
-
-# Copy the index.php file from the local system to the /var/www/html directory in the Docker image.
-# This is the default directory that Apache serves files from.
-COPY index.php /var/www/html/index.php
