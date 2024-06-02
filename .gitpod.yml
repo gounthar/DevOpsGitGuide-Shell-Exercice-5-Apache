@@ -7,12 +7,14 @@ image:
   file: .gitpod.Dockerfile  # Path to the Dockerfile
 
 # 'ports' field is a list of ports that Gitpod will automatically expose when they are actively listened to by your application.
+# Here, port 80 is exposed.
 ports:
-  - port: 3306  # MySQL/MariaDB default port
+  - port: 80  # The port number to expose
 
 # The 'tasks' field is a list of tasks to run when the workspace starts.
 # Each task can have 'init' and 'command' fields.
 # The 'init' field is a command that is run when the workspace is first initialized.
 # The 'command' field is a command that is run after the 'init' command.
+# Here, the apache2 service is started when the workspace is initialized.
 tasks:
-  - init: sudo service apache2 start
+  - init: sudo service apache2 start  # The command to run when the workspace is initialized
