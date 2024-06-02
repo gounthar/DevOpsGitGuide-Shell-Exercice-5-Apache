@@ -8,9 +8,14 @@ FROM gitpod/workspace-python
 USER root
 
 # Update the package lists for upgrades and new package installations.
-# Install cron, apache2, mariadb-client, tree, and telnet packages.
-RUN apt-get update && apt-get install -y cron apache2 mariadb-client tree telnet
+# Install cron, apache2, php, libapache2-mod-php, php-mysql, mariadb-client, tree, and telnet packages.
+# These packages provide the necessary tools and services for a PHP development environment.
+RUN apt-get update && apt-get install -y cron apache2 php libapache2-mod-php php-mysql mariadb-client tree telnet
 
-# Start the cron service.
-# The service command is used to run a System V init script.
-RUN service cron start
+# Enable the PHP 8.1 module for Apache.
+# This allows Apache to handle PHP files and serve them as dynamic content.
+RUN a2enmod php8.1
+
+# Copy the index.php file from the local system to the /var/www/html directory in the Docker image.
+# This is the default directory that Apache serves files from.
+COPY index.php /var/www/html/index.php
